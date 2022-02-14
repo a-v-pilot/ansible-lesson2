@@ -1,0 +1,25 @@
+---
+- name: Create users
+  hosts: node1.example.com
+
+  vars:
+    password: !vault |
+              $ANSIBLE_VAULT;1.1;AES256
+              35646462363763656361396338303134666361316361343031316434626566396330386133633431
+              6665646535306631343238633139343932393431366564310a306631356663333633666362383266
+              38323433643432613364633635613830613935623135393633336361346533656236666237346265
+              3038303362396535650a376163323437616139346334393338376635313835386565613432376361
+              3763
+
+  tasks:
+   - name: Creating users
+     user:
+       name: "{{ item }}"
+       comment: "{{ item }}@example.com"
+       home: /home/{{ item }}
+       password: password
+       update_password: on_create
+     with_items:
+       - Alice
+       - Bobe
+       - Carol 
